@@ -62,8 +62,6 @@ jobs:
         sudo -E apt-get -qq clean
         sudo swapoff -a
         sudo rm -f /swapfile
-        sudo apt clean
-        docker rmi $(docker image ls -aq)
         df -h
 
     - name: Clone source code
