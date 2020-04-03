@@ -26,7 +26,7 @@ env:
   REPO_BRANCH: dev-lean-lede
   CONFIG_FILE: .config
   DIY_SH: diy.sh
-  FREE_UP_DISK: false
+  FREE_UP_DISK: true
   SSH_ACTIONS: true
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
@@ -60,6 +60,11 @@ jobs:
         sudo -E apt-get -q purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
+        sudo swapoff -a
+        sudo rm -f /swapfile
+        sudo apt clean
+        docker rmi $(docker image ls -aq)
+        df -h
 
     - name: Clone source code
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
